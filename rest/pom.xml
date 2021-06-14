@@ -4,18 +4,15 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.5.1</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <groupId>com.witsoftware</groupId>
+        <artifactId>wit-project</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
     </parent>
 
     <groupId>com.witsoftware</groupId>
-    <artifactId>wit-project</artifactId>
+    <artifactId>rest</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>wit-project</name>
-    <packaging>pom</packaging>
-    <description>Demo project for Spring Boot</description>
+    <name>rest</name>
 
     <properties>
         <java.version>1.8</java.version>
@@ -38,11 +35,6 @@
             <optional>true</optional>
         </dependency>
         <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
@@ -53,27 +45,12 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-    <modules>
-        <module>calculator</module>
-        <module>rest</module>
-    </modules>
 
     <build>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <excludes>
-                        <exclude>
-                            <groupId>org.projectlombok</groupId>
-                            <artifactId>lombok</artifactId>
-                        </exclude>
-                    </excludes>
-                    <skip>
-                        true
-                    </skip>
-                </configuration>
             </plugin>
         </plugins>
     </build>

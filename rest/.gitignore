@@ -31,15 +31,3 @@ build/
 
 ### VS Code ###
 .vscode/
-
-calculator-processor/calculator-processor.iml
-calculator-processor/.mvn
-calculator-processor/target
-calculator-processor/.gitignore
-
-calculator-restapi/calculator-restapi.iml
-calculator-restapi/.mvn
-calculator-restapi/target
-calculator-restapi/.gitignore
-
-.mvn
