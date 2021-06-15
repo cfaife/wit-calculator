@@ -6,11 +6,14 @@ import com.witsoftware.rest.calculator.utils.Constants;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 
-//@Component
+import java.util.UUID;
+
+@Component
 public class ResultRetriever {
 
-    //@RabbitListener(queues = Constants.RESULT_QUEUE)
-    public MathOperationResult getResult(MathOperationResult mathOperationResult){
-     return  mathOperationResult;
+    @RabbitListener(queues = Constants.RESULT_QUEUE)
+    public MathOperationResult  getResult(UUID uuid){
+
+        return null;
     }
 }

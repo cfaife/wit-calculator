@@ -43,8 +43,6 @@ public class MathOperationController {
 
         Double result = Double.valueOf(a+b);
 
-        //this.resultRetriever.getResult(new MathOperationResult(mathOperation.getUuid(),result));
-
         return  buildResponse(mathOperation.getUuid(),result);
 
     }
