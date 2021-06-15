@@ -49,6 +49,12 @@
             <optional>true</optional>
         </dependency>
 
+        <dependency>
+            <groupId>com.witsoftware</groupId>
+            <artifactId>calculator</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
     </dependencies>
 
     <build>
