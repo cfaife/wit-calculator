@@ -32,14 +32,14 @@ build/
 ### VS Code ###
 .vscode/
 
-calculator-processor/calculator-processor.iml
-calculator-processor/.mvn
-calculator-processor/target
-calculator-processor/.gitignore
+calculator/calculator-processor.iml
+calculator/.mvn
+calculator/target
+calculator/.gitignore
 
-calculator-restapi/calculator-restapi.iml
-calculator-restapi/.mvn
-calculator-restapi/target
-calculator-restapi/.gitignore
+rest/calculator-restapi.iml
+rest/.mvn
+rest/target
+rest/.gitignore
 
 .mvn

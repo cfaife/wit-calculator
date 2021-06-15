@@ -11,15 +11,15 @@
  * Maven;
  * Docker;
 
-## usage
+## Usage
 
-### Rabbit in Docker container
+### Running RabbitMQ in Docker container
 
 
  First, is need an instance of RabbitMQ running on your `localhost`. For run with Docker 
  using the below command:
 
-    docker run -d  --name my-queues -p 15672:15672 -p 5672:5672 rabbitmq:3-management
+    docker run -d --rm --name my-queues -p 15672:15672 -p 5672:5672 rabbitmq:3-management
 
  After running the command, it will be possible to access the RabbitMQ on your browser
  using the url: `http://localhost:15672`.

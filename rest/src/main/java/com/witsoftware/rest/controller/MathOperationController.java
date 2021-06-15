@@ -2,10 +2,10 @@ package com.witsoftware.rest.controller;
 
 import com.witsoftware.rest.calculator.dto.MathOperationResultDTO;
 import com.witsoftware.rest.calculator.model.MathOperation;
-import com.witsoftware.rest.calculator.model.MathOperationResult;
 import com.witsoftware.rest.calculator.utils.Constants;
 import com.witsoftware.rest.calculator.utils.Operator;
-import com.witsoftware.rest.handler.ResultRetriever;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -18,15 +18,13 @@ import java.util.UUID;
 @RequestMapping("/v1")
 public class MathOperationController {
 
+    private static final Logger logger = LoggerFactory.getLogger(MathOperationController.class);
+
     private RabbitTemplate rabbitTemplate;
 
-   // private ResultRetriever resultRetriever;
-
     @Autowired
-    MathOperationController(RabbitTemplate rabbitTemplate
-                            /*ResultRetriever resultRetriever*/){
+    MathOperationController(RabbitTemplate rabbitTemplate){
         this.rabbitTemplate =  rabbitTemplate;
-        //this.resultRetriever = resultRetriever;
     }
 
     @GetMapping("/sum")
@@ -38,8 +36,13 @@ public class MathOperationController {
                 b,
                 Operator.ADDITION);
 
+        logger.info("created mathOperation for "+Operator.ADDITION +" with uuid:" +mathOperation.getUuid() );
+
         this.rabbitTemplate.convertAndSend(Constants.EXCHANGE,
                 Constants.OPERATION_ROUTING_KEY,mathOperation);
+
+        logger.info("Pushed the mathOperation "+ mathOperation.getUuid() +" to the Queue" );
+
 
         Double result = Double.valueOf(a+b);
 
@@ -48,13 +51,20 @@ public class MathOperationController {
     }
     @GetMapping("/sub")
     public ResponseEntity<MathOperationResultDTO> getSub(@RequestParam("a") int a, @RequestParam("b") int b  ){
+
         MathOperation mathOperation = new MathOperation(UUID.randomUUID(),
                 a,
                 b,
                 Operator.SUBTRACTION);
 
-        Double result = Double.valueOf(a-b);
+        logger.info("created mathOperation for "+Operator.SUBTRACTION +" with uuid:" +mathOperation.getUuid() );
 
+        this.rabbitTemplate.convertAndSend(Constants.EXCHANGE,
+                Constants.OPERATION_ROUTING_KEY,mathOperation);
+
+        logger.info("Pushed the mathOperation "+ mathOperation.getUuid() +" to the Queue" );
+
+        Double result = Double.valueOf(a-b);
         return  buildResponse(mathOperation.getUuid(),result);
 
 
@@ -66,11 +76,16 @@ public class MathOperationController {
                 a,
                 b,
                 Operator.MULTIPLICATION);
+        logger.info("created mathOperation for "+Operator.SUBTRACTION +" with uuid:" +mathOperation.getUuid() );
+
 
         this.rabbitTemplate.convertAndSend(Constants.EXCHANGE,
                 Constants.OPERATION_ROUTING_KEY,mathOperation);
+        logger.info("Pushed the mathOperation "+ mathOperation.getUuid() +" to the Queue" );
 
          Double result = Double.valueOf(a*b);
+
+
 
         return  buildResponse(mathOperation.getUuid(),result);
 
@@ -81,9 +96,13 @@ public class MathOperationController {
                 a,
                 b,
                 Operator.DIVISION);
+        logger.info("created mathOperation for "+Operator.DIVISION +" with uuid:" +mathOperation.getUuid() );
 
         this.rabbitTemplate.convertAndSend(Constants.EXCHANGE,
                 Constants.OPERATION_ROUTING_KEY,mathOperation);
+
+        logger.info("Pushed the mathOperation "+ mathOperation.getUuid() +" to the Queue" );
+
 
         Double result = Double.valueOf(a/b);
 
