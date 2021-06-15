@@ -1,12 +1,12 @@
-package com.witsoftware.rest;
+package com.witsoftware;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
+
 class RestApplicationTests {
 
-    @Test
+
     void contextLoads() {
     }
 

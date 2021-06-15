@@ -1,4 +1,4 @@
-package com.witsoftware.calculator.utils;
+package com.witsoftware.rest.calculator.utils;
 
 public enum Operator {
 

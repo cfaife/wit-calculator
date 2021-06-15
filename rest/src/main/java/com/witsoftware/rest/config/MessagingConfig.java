@@ -1,6 +1,6 @@
 package com.witsoftware.rest.config;
 
-import com.witsoftware.calculator.utils.Constants;
+import com.witsoftware.rest.calculator.utils.Constants;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -13,8 +13,13 @@ import org.springframework.context.annotation.Configuration;
 public class MessagingConfig {
 
     @Bean
-    public Queue queue(){
-        return new Queue(Constants.QUEUE);
+    public Queue operationQueue(){
+        return new Queue(Constants.OPERATION_QUEUE);
+    }
+
+    @Bean
+    public Queue resultQueue(){
+        return new Queue(Constants.RESULT_QUEUE);
     }
 
     @Bean
@@ -22,8 +27,13 @@ public class MessagingConfig {
         return new TopicExchange(Constants.EXCHANGE);
     }
     @Bean
-    public Binding binding(Queue queue, TopicExchange exchange){
-        return BindingBuilder.bind(queue).to(exchange).with(Constants.ROUTING_KEY);
+    public Binding operationBinding( TopicExchange exchange){
+        return BindingBuilder.bind(operationQueue()).to(exchange).with(Constants.OPERATION_ROUTING_KEY);
+    }
+
+    @Bean
+    public Binding resultBinding(TopicExchange exchange){
+        return BindingBuilder.bind(resultQueue()).to(exchange).with(Constants.RESULT_ROUTING_KEY);
     }
     @Bean
     public MessageConverter converter(){

@@ -1,8 +1,9 @@
-package com.witsoftware.calculator.model;
+package com.witsoftware.rest.calculator.model;
 
 import lombok.*;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 @Data
 @AllArgsConstructor
@@ -13,7 +14,7 @@ import java.io.Serializable;
 @Setter
 public class MathOperationResult implements Serializable {
 
-    public String operationId;
+    private UUID operationId;
 
     private Double result;
 
