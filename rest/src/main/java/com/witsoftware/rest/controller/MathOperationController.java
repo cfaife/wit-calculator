@@ -85,8 +85,6 @@ public class MathOperationController {
 
          Double result = Double.valueOf(a*b);
 
-
-
         return  buildResponse(mathOperation.getUuid(),result);
 
     }
