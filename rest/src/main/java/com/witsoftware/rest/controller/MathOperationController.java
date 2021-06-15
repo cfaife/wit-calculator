@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.slf4j.MDC;
+
 
 import java.util.UUID;
 
@@ -43,8 +45,10 @@ public class MathOperationController {
 
         logger.info("Pushed the mathOperation "+ mathOperation.getUuid() +" to the Queue" );
 
-
         Double result = Double.valueOf(a+b);
+        MDC.put("result",result.toString());
+        MDC.put("request-id",mathOperation.getUuid().toString());
+
 
         return  buildResponse(mathOperation.getUuid(),result);
 
@@ -65,6 +69,10 @@ public class MathOperationController {
         logger.info("Pushed the mathOperation "+ mathOperation.getUuid() +" to the Queue" );
 
         Double result = Double.valueOf(a-b);
+        MDC.put("result",result.toString());
+        MDC.put("request-id",mathOperation.getUuid().toString());
+
+
         return  buildResponse(mathOperation.getUuid(),result);
 
 
@@ -83,7 +91,10 @@ public class MathOperationController {
                 Constants.OPERATION_ROUTING_KEY,mathOperation);
         logger.info("Pushed the mathOperation "+ mathOperation.getUuid() +" to the Queue" );
 
-         Double result = Double.valueOf(a*b);
+        Double result = Double.valueOf(a*b);
+        MDC.put("result",result.toString());
+        MDC.put("request-id",mathOperation.getUuid().toString());
+
 
         return  buildResponse(mathOperation.getUuid(),result);
 
@@ -103,6 +114,8 @@ public class MathOperationController {
 
 
         Double result = Double.valueOf(a/b);
+        MDC.put("result",result.toString());
+        MDC.put("request-id",mathOperation.getUuid().toString());
 
         return  buildResponse(mathOperation.getUuid(),result);
     }
