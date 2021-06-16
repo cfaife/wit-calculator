@@ -10,13 +10,14 @@
  * Java 8 or superior;
  * Maven;
  * Docker;
+ * Logging, Logback and MDC
 
 ## Usage
 
 ### Running RabbitMQ in Docker container
 
 
- First, is need an instance of RabbitMQ running on your `localhost`. For run with Docker 
+ First, is need an instance of RabbitMQ running on your `localhost`. Run with Docker 
  using the below command:
 
     docker run -d --rm --name my-queues -p 15672:15672 -p 5672:5672 rabbitmq:3-management
