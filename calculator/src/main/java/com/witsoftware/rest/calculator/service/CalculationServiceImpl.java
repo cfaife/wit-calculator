@@ -6,6 +6,7 @@ import com.witsoftware.rest.calculator.utils.Constants;
 import com.witsoftware.rest.calculator.utils.Operator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,7 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class CalculationServiceImpl implements  CalculationService{
+public class CalculationServiceImpl implements  CalculationService  {
 
     private static final Logger logger = LoggerFactory.getLogger(CalculationServiceImpl.class);
 
@@ -33,19 +34,24 @@ public class CalculationServiceImpl implements  CalculationService{
         Optional<MathOperationResult> mathOperationResult =
                 this.operate(mathOperation);
 
+
         logger.info("Sending the mathOperation "+ mathOperation.getUuid() +" to result queue");
 
 
-        mathOperationResult.ifPresent(x->{
+        if(mathOperationResult.isPresent()){
+            logger.info("Calculation succeeded with result: "+ mathOperationResult.get().getResult() );
+            MDC.put("result",mathOperationResult.get().getResult().toString());
+
             resultSenderService.send(mathOperationResult.get());
-        });
+        };
+
     }
 
     private Optional<MathOperationResult> operate(MathOperation mathOperation){
 
 
         if(mathOperation.getOperator()== Operator.ADDITION){
-            logger.info("Performing ADDITION operation");
+            logger.info("Performing ADDITION operation of: "+mathOperation.getA() +" + "+mathOperation.getB());
 
             return Optional.of(new MathOperationResult(mathOperation.getUuid(),
                     Double.parseDouble(mathOperation.getA() + mathOperation.getB()+"")
@@ -54,7 +60,7 @@ public class CalculationServiceImpl implements  CalculationService{
 
         if(mathOperation.getOperator()== Operator.SUBTRACTION){
 
-            logger.info("Performing SUBTRACTION operation");
+            logger.info("Performing SUBTRACTION operation of: "+mathOperation.getA() +" - "+mathOperation.getB());
 
             return Optional.of(new MathOperationResult(mathOperation.getUuid(),
                     Double.parseDouble(mathOperation.getA() - mathOperation.getB()+"")
@@ -63,7 +69,7 @@ public class CalculationServiceImpl implements  CalculationService{
 
         if(mathOperation.getOperator()== Operator.MULTIPLICATION){
 
-            logger.info("Performing MULTIPLICATION operation");
+            logger.info("Performing MULTIPLICATION operation of: "+mathOperation.getA() +" * "+mathOperation.getB());
 
             return Optional.of( new MathOperationResult(mathOperation.getUuid(),
             Double.parseDouble(mathOperation.getA() * mathOperation.getB()+"")
@@ -76,7 +82,7 @@ public class CalculationServiceImpl implements  CalculationService{
                 throw new IllegalArgumentException("Operating not acceptable, first operating can not be zero");
             }
 
-            logger.info("Performing DIVISION operation");
+            logger.info("Performing DIVISION operation of: "+mathOperation.getA() +" / "+mathOperation.getB());
 
 
             return Optional.of( new MathOperationResult(mathOperation.getUuid(),
@@ -85,4 +91,6 @@ public class CalculationServiceImpl implements  CalculationService{
         }
         return Optional.empty();
     }
+
+
 }

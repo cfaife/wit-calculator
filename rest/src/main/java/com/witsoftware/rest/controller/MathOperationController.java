@@ -1,6 +1,5 @@
 package com.witsoftware.rest.controller;
 
-import com.witsoftware.rest.calculator.dto.MathOperationResultDTO;
 import com.witsoftware.rest.calculator.model.MathOperation;
 import com.witsoftware.rest.calculator.utils.Constants;
 import com.witsoftware.rest.calculator.utils.Operator;
@@ -11,8 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.slf4j.MDC;
-
 
 import java.util.UUID;
 
@@ -31,7 +28,7 @@ public class MathOperationController {
 
     @GetMapping("/sum")
 
-    public ResponseEntity<MathOperationResultDTO> getSum(@RequestParam("a") int a, @RequestParam("b") int b  ){
+    public ResponseEntity getSum(@RequestParam("a") int a, @RequestParam("b") int b  ){
 
         MathOperation mathOperation = new MathOperation(UUID.randomUUID(),
                 a,
@@ -45,16 +42,11 @@ public class MathOperationController {
 
         logger.info("Pushed the mathOperation "+ mathOperation.getUuid() +" to the Queue" );
 
-        Double result = Double.valueOf(a+b);
-        MDC.put("result",result.toString());
-        MDC.put("request-id",mathOperation.getUuid().toString());
-
-
-        return  buildResponse(mathOperation.getUuid(),result);
+        return  buildResponse(mathOperation.getUuid());
 
     }
     @GetMapping("/sub")
-    public ResponseEntity<MathOperationResultDTO> getSub(@RequestParam("a") int a, @RequestParam("b") int b  ){
+    public ResponseEntity getSub(@RequestParam("a") int a, @RequestParam("b") int b  ){
 
         MathOperation mathOperation = new MathOperation(UUID.randomUUID(),
                 a,
@@ -68,17 +60,11 @@ public class MathOperationController {
 
         logger.info("Pushed the mathOperation "+ mathOperation.getUuid() +" to the Queue" );
 
-        Double result = Double.valueOf(a-b);
-        MDC.put("result",result.toString());
-        MDC.put("request-id",mathOperation.getUuid().toString());
-
-
-        return  buildResponse(mathOperation.getUuid(),result);
-
+        return  buildResponse(mathOperation.getUuid());
 
     }
     @GetMapping("/mult")
-    public ResponseEntity<MathOperationResultDTO> getMult(@RequestParam("a") int a, @RequestParam("b") int b  ){
+    public ResponseEntity getMult(@RequestParam("a") int a, @RequestParam("b") int b  ){
 
         MathOperation mathOperation = new MathOperation(UUID.randomUUID(),
                 a,
@@ -91,16 +77,12 @@ public class MathOperationController {
                 Constants.OPERATION_ROUTING_KEY,mathOperation);
         logger.info("Pushed the mathOperation "+ mathOperation.getUuid() +" to the Queue" );
 
-        Double result = Double.valueOf(a*b);
-        MDC.put("result",result.toString());
-        MDC.put("request-id",mathOperation.getUuid().toString());
 
-
-        return  buildResponse(mathOperation.getUuid(),result);
+        return  buildResponse(mathOperation.getUuid());
 
     }
     @GetMapping("/div")
-    public ResponseEntity<MathOperationResultDTO> getDivisionOf(@RequestParam("a") int a, @RequestParam("b") int b  ){
+    public ResponseEntity getDivisionOf(@RequestParam("a") int a, @RequestParam("b") int b  ){
         MathOperation mathOperation = new MathOperation(UUID.randomUUID(),
                 a,
                 b,
@@ -112,12 +94,7 @@ public class MathOperationController {
 
         logger.info("Pushed the mathOperation "+ mathOperation.getUuid() +" to the Queue" );
 
-
-        Double result = Double.valueOf(a/b);
-        MDC.put("result",result.toString());
-        MDC.put("request-id",mathOperation.getUuid().toString());
-
-        return  buildResponse(mathOperation.getUuid(),result);
+        return  buildResponse(mathOperation.getUuid());
     }
 
 
@@ -129,11 +106,10 @@ public class MathOperationController {
         return headers;
     }
 
-    private  ResponseEntity<MathOperationResultDTO> buildResponse(UUID uuid, Double result){
+    private  ResponseEntity buildResponse(UUID uuid){
         return  ResponseEntity
                 .ok()
-                .headers(setDefaultHeaders(uuid))
-                .body(new MathOperationResultDTO(result));
+                .headers(setDefaultHeaders(uuid)).build();
     }
 
 }
